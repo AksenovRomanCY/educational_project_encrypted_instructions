@@ -53,39 +53,34 @@ def decipher_instructions(
     Returns:
         str: Encrypted message.
     """
-    # Stack to store strings at each nesting level (before opening '[').
-    string_stack = []
-
-    # Stack for storing numbers that determine the number
+    # Stack to store strings and numbers that determine the number
     # of repetitions for the current sequence.
-    number_stack = []
+    buffer_stack = []
 
     # The current string being collected, which will be expanded
     # as characters are processed.
-    current_string = ''
+    current_string = str()
 
     # The current number for repeats, which is updated when
     # digits before '[' are found.
-    current_number = 0
+    current_number = str()
 
     for symbol in encrypted_instructions:
-        if symbol.isdigit():
+        if symbol in '0123456789':
             # Update current_number for repeat.
-            current_number = current_number * 10 + int(symbol)
+            current_number = current_number + symbol
         elif symbol == '[':
-            # Save the current number and string to the stacks.
-            number_stack.append(current_number)
-            string_stack.append(current_string)
+            # Save the current number and string to the stack.
+            buffer_stack.append((current_string, current_number))
 
             # Reset the current ones.
-            current_string = ''
-            current_number = 0
+            current_string = str()
+            current_number = str()
         elif symbol == ']':
             # Terminate the current string using the last
             # number from the stack.
-            repeat_num = number_stack.pop()
-            last_str = string_stack.pop()
-            current_string = last_str + current_string * repeat_num
+            last_str, repeat_num = buffer_stack.pop()
+            current_string = last_str + current_string * int(repeat_num)
         else:
             # Add symbol to current_string.
             current_string += symbol
