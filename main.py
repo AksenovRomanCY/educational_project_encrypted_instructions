@@ -48,10 +48,10 @@ def decipher_instructions(
     """Decrypts compressed messages.
 
     Args:
-        encrypted_instructions (str): Compressed command string
+        encrypted_instructions (str): Compressed command string.
 
     Returns:
-        str: Encrypted message
+        str: Encrypted message.
     """
     # Stack to store strings at each nesting level (before opening '[').
     string_stack = []
@@ -90,7 +90,7 @@ def decipher_instructions(
             # Add symbol to current_string.
             current_string += symbol
 
-    # Return the expanded commands
+    # Return the expanded commands.
     return current_string
 
 
